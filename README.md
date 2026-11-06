@@ -73,10 +73,10 @@ study-planner/
 
 | Name | Role | GitHub |
 |---|---|---|
-| Member 1 | Repository owner | @username |
-| Member 2 | Core logic | @username |
-| Member 3 | Interface | @username |
-| Member 4 | Testing and CI | @username |
+|Abdulhakim Aman Abdo | Repository owner | abdulhakaman |
+| Deng Kuol | Core logic |dengisaac2003-crypto |
+|Abdulhakim | Interface |abdulhakaman |
+| deng | Testing and CI |dengisaac2003-crypto |
 
 ## Planned improvements
 
