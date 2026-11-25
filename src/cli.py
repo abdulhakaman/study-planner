@@ -5,6 +5,8 @@ Usage:
     python -m src.cli list
     python -m src.cli soon --days 7
     python -m src.cli done 1
+    python -m src.cli delete 1
+    python -m src.cli edit 1 --due 2026-12-01
 """
 
 import argparse
@@ -59,6 +61,16 @@ def build_parser() -> argparse.ArgumentParser:
     done = sub.add_parser("done", help="Mark a task as done")
     done.add_argument("number", type=int, help="Task number from the list")
 
+    delete = sub.add_parser("delete", help="Delete a task")
+    delete.add_argument("number", type=int, help="Task number from the list")
+
+    edit = sub.add_parser("edit", help="Edit a task")
+    edit.add_argument("number", type=int, help="Task number from the list")
+    edit.add_argument("--title")
+    edit.add_argument("--course")
+    edit.add_argument("--due", help="New due date as YYYY-MM-DD")
+    edit.add_argument("--difficulty", type=int, choices=range(1, 6))
+
     return parser
 
 
@@ -81,6 +93,26 @@ def main(argv=None) -> None:
         tasks[args.number - 1].done = True
         save_tasks(tasks)
         print("Task marked as done.")
+    elif args.command == "delete":
+        if not 1 <= args.number <= len(tasks):
+            raise SystemExit("No task with that number.")
+        removed = tasks.pop(args.number - 1)
+        save_tasks(tasks)
+        print(f"Deleted: {removed.title}")
+    elif args.command == "edit":
+        if not 1 <= args.number <= len(tasks):
+            raise SystemExit("No task with that number.")
+        task = tasks[args.number - 1]
+        if args.title:
+            task.title = args.title
+        if args.course:
+            task.course = args.course
+        if args.due:
+            task.due = date.fromisoformat(args.due)
+        if args.difficulty:
+            task.difficulty = args.difficulty
+        save_tasks(tasks)
+        print("Task updated.")
 
 
 if __name__ == "__main__":
